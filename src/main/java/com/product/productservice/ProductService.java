@@ -7,9 +7,9 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class ProductService implements InterfaceProductService {
-	
+
 	private final ProductRepository productRepository;
-	
+
 	public ProductService(ProductRepository productRepository) {
 		this.productRepository = productRepository;
 	}
@@ -30,14 +30,12 @@ public class ProductService implements InterfaceProductService {
 	}
 
 	@Override
-	public Mono<Product> updateProduct(int productId, Mono<Product> productMono) {
-		return productRepository.findById(productId)
-                .flatMap(p -> productMono.map(u -> {
-                    p.setDescription(u.getDescription());
-                    p.setPrice(u.getPrice());
-                    return p;
-                }))
-                .flatMap(p -> productRepository.save(p));
+	public Mono<Product> updateProduct(final Product product) {
+		return productRepository.findById(product.getId()).flatMap(p -> {
+			p.setDescription(product.getDescription());
+			p.setPrice(product.getPrice());
+			return productRepository.save(p);
+		}).switchIfEmpty(productRepository.save(product.setAsNew()));// save if the product with id is not present
 	}
 
 	@Override

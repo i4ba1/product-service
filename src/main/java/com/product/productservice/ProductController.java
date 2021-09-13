@@ -40,8 +40,8 @@ public class ProductController {
 	}
 	
 	@PutMapping("/updateProduct/{productId}")
-	public Mono<Product> updateProduct(@PathVariable int productId, @RequestBody Mono<Product> existingProduct){
-		return productService.updateProduct(productId, existingProduct);
+	public Mono<Product> updateProduct(@RequestBody Product existingProduct){
+		return productService.updateProduct(existingProduct);
 	}
 	
 	@DeleteMapping("/deleteProduct/{productId}")

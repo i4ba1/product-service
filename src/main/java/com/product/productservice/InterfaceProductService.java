@@ -7,6 +7,6 @@ public interface InterfaceProductService {
 	Flux<Product> getAllProducts();
 	Mono<Product> getProductById(int productId);
 	Mono<Product> createProduct(final Product product);
-	Mono<Product> updateProduct(int productid, final Mono<Product> productMono);
+	Mono<Product> updateProduct(final Product product);
 	Mono<Void> deleteproduct(int productId);
 }
